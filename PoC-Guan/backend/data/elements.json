@@ -1,0 +1,436 @@
+[
+  {
+    "id": "elem-A01",
+    "name": "中轴线布局",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "中国传统庙宇的经典格局，强调庄重与对称。"
+  },
+  {
+    "id": "elem-A02",
+    "name": "山门（庙门）",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "庙宇入口，有时兼作戏台或楼阁。"
+  },
+  {
+    "id": "elem-A03",
+    "name": "崇宁殿、武圣殿",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "主殿，通常供奉关帝主神像，是庙宇核心。"
+  },
+  {
+    "id": "elem-A04",
+    "name": "春秋楼",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "常为庙内最高建筑，象征关公夜读《春秋》，体现其“文”的一面。"
+  },
+  {
+    "id": "elem-A05",
+    "name": "三义祠（殿）",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "供奉刘备、关羽、张飞，彰显“桃园结义”兄弟情义。"
+  },
+  {
+    "id": "elem-A06",
+    "name": "配殿与厢房",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "位于主殿两侧，供奉从祀神祇或用作客堂、斋房。"
+  },
+  {
+    "id": "elem-A07",
+    "name": "钟楼与鼓楼",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "位于主殿前广场两侧，晨钟暮鼓，用于礼仪报时。"
+  },
+  {
+    "id": "elem-A08",
+    "name": "戏台",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "用于酬神演出，多面向主殿，使神人共赏。"
+  },
+  {
+    "id": "elem-A09",
+    "name": "照壁（影壁）",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "位于大门外或内，起到屏障和装饰作用，常有精美砖雕。"
+  },
+  {
+    "id": "elem-A10",
+    "name": "牌坊与棂星门",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "礼仪性、标志性建筑，划分空间，彰显等级与褒扬。"
+  },
+  {
+    "id": "elem-A11",
+    "name": "勾连搭形制",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "晋地庙宇经典布局，献殿与正殿相连形成一体，节省空间且形制独特。"
+  },
+  {
+    "id": "elem-A12",
+    "name": "山门戏台",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "兼具山门入口与戏曲演出功能，晋地民间庙宇特色。"
+  },
+  {
+    "id": "elem-A13",
+    "name": "过街楼形制",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "楼阁式建筑跨街而建，明代特色，兼具通行与祭祀功能。"
+  },
+  {
+    "id": "elem-A14",
+    "name": "窑洞式春秋楼",
+    "category": "物质",
+    "subcategory": "建筑与布局",
+    "description": "一层为窑洞结构，二层为木质楼阁，晋地地域建筑特色。"
+  },
+  {
+    "id": "elem-B01",
+    "name": "关帝帝王坐像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "头戴冕旒，身着帝袍，面容威严，为受敕封后的最高形象。"
+  },
+  {
+    "id": "elem-B02",
+    "name": "关帝戎装像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "身着铠甲，手持青龙偃月刀，或坐或立，体现武勇。"
+  },
+  {
+    "id": "elem-B03",
+    "name": "关帝读书像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "关公坐观《春秋》，美髯、赤面，神情专注，为经典文化符号。"
+  },
+  {
+    "id": "elem-B04",
+    "name": "关平太子像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "关公义子，通常捧印侍立于主像左侧，代表“印”。"
+  },
+  {
+    "id": "elem-B05",
+    "name": "周仓将军像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "关公部将，通常持青龙偃月刀侍立于主像右侧，代表“刀”。"
+  },
+  {
+    "id": "elem-B06",
+    "name": "赤兔马像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "关公坐骑，以泥塑、石雕或壁画形式出现，象征忠诚与神速。"
+  },
+  {
+    "id": "elem-B07",
+    "name": "从祀神祇群像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "包括王甫、赵累、关兴、张苞等关公部将或亲属。"
+  },
+  {
+    "id": "elem-B08",
+    "name": "合祀神祇像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "与关公同庙供奉的其他重要神祇，如岳飞、刘备、张飞等。"
+  },
+  {
+    "id": "elem-B09",
+    "name": "关娘娘（关羽夫人）像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "供奉关羽夫人，太原独有民俗信仰，温婉端庄造型。"
+  },
+  {
+    "id": "elem-B10",
+    "name": "元代侍女像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "面颊丰满、造型生动，晋地元代雕塑工艺代表。"
+  },
+  {
+    "id": "elem-B11",
+    "name": "关羽夫妇合祀像",
+    "category": "物质",
+    "subcategory": "塑像与神像",
+    "description": "关羽与关娘娘同殿供奉，体现民间信仰的生活化。"
+  },
+  {
+    "id": "elem-C01",
+    "name": "琉璃构件",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "屋脊、鸱吻、影壁上的琉璃制品，色彩绚丽，等级象征。"
+  },
+  {
+    "id": "elem-C02",
+    "name": "木雕（梁架、雀替）",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "建筑梁架、斗拱、门窗上的精细雕刻，题材丰富。"
+  },
+  {
+    "id": "elem-C03",
+    "name": "石雕（柱础、栏杆）",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "石碑、石狮、柱础、栏杆上的雕刻，坚固耐久。"
+  },
+  {
+    "id": "elem-C04",
+    "name": "壁画与彩绘",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "墙面或梁枋上的绘画，主要描绘关公生平、三国故事。"
+  },
+  {
+    "id": "elem-C05",
+    "name": "牌匾与楹联",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "悬挂于殿宇之上的题字木板及柱子上的对联，文字精炼，点明主旨。"
+  },
+  {
+    "id": "elem-C06",
+    "name": "祭祀礼器",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "香炉、烛台、供桌、罄、鼎等用于祭祀仪式的器物。"
+  },
+  {
+    "id": "elem-C07",
+    "name": "古树名木",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "庙内古柏、古槐等，被视为灵物，增加历史与灵性氛围。"
+  },
+  {
+    "id": "elem-C08",
+    "name": "矿物颜料壁画",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "以矿物颜料绘制，色彩持久，晋地壁画工艺特色。"
+  },
+  {
+    "id": "elem-C09",
+    "name": "清代重修碑记",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "记录庙宇重修历史，碑文书法具有艺术价值。"
+  },
+  {
+    "id": "elem-C10",
+    "name": "梁架戏曲题记",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "梁架上墨书戏曲演出题记，记录民间文化生活。"
+  },
+  {
+    "id": "elem-C11",
+    "name": "古锁具",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "各式清代古锁，刻有吉祥纹饰，象征平安守护。"
+  },
+  {
+    "id": "elem-C12",
+    "name": "甲胄陈列品",
+    "category": "物质",
+    "subcategory": "装饰与器物",
+    "description": "古代武将铠甲，与关公“武勇”文化相呼应。"
+  },
+  {
+    "id": "elem-D01",
+    "name": "关公信俗",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "以“忠义仁勇信”为核心，融合儒释道文化的民间信仰，已列入国家级非遗。"
+  },
+  {
+    "id": "elem-D02",
+    "name": "祭祀古礼",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "按传统礼仪进行的官方或民间祭祀，有固定流程、祭文、乐舞。"
+  },
+  {
+    "id": "elem-D03",
+    "name": "日常祭拜",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "信众日常的上香、叩拜、祈福、求签等活动。"
+  },
+  {
+    "id": "elem-D04",
+    "name": "求签问卜",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "在关帝庙前抽签占卜，以关公为决疑断事之神。"
+  },
+  {
+    "id": "elem-D05",
+    "name": "晋商关公祈福",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "晋商祭拜关公祈求信义、财运，是关公信俗与晋商文化的融合。"
+  },
+  {
+    "id": "elem-D06",
+    "name": "关娘娘求子护佑",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "民间祭拜关娘娘祈求女性平安、亲子护佑，太原独有民俗。"
+  },
+  {
+    "id": "elem-D07",
+    "name": "社区型小庙祭拜",
+    "category": "非物质",
+    "subcategory": "信仰与习俗",
+    "description": "贴近居民生活，祭拜形式简约，兼具邻里社交属性。"
+  },
+  {
+    "id": "elem-E01",
+    "name": "关公戏",
+    "category": "非物质",
+    "subcategory": "艺术与表演",
+    "description": "戏曲中专门扮演关公的角色（红生）及相关剧目。"
+  },
+  {
+    "id": "elem-E02",
+    "name": "三国故事壁画、雕塑",
+    "category": "非物质",
+    "subcategory": "艺术与表演",
+    "description": "以视觉艺术形式呈现的三国及关公题材作品。"
+  },
+  {
+    "id": "elem-E03",
+    "name": "传说与说唱文学",
+    "category": "非物质",
+    "subcategory": "艺术与表演",
+    "description": "关于关公显灵、地方风物的口头传说与民间说唱。"
+  },
+  {
+    "id": "elem-E04",
+    "name": "晋地面塑关公",
+    "category": "非物质",
+    "subcategory": "艺术与表演",
+    "description": "以晋地面塑工艺制作关公形象，色彩鲜艳造型生动。"
+  },
+  {
+    "id": "elem-F01",
+    "name": "关帝诞辰（磨刀日）",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "农历五月十三，最重要的关公纪念日，常伴庙会。"
+  },
+  {
+    "id": "elem-F02",
+    "name": "春秋大祭",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "春（农历四月初八）、秋（农历九月初九）两次大祭。"
+  },
+  {
+    "id": "elem-F03",
+    "name": "庙会",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "以关帝庙为中心形成的周期性集市与民俗活动综合体。"
+  },
+  {
+    "id": "elem-F04",
+    "name": "关公文化节",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "现代举办的大型综合性文化节庆，包含祭祀、论坛、演出等。"
+  },
+  {
+    "id": "elem-F05",
+    "name": "关公文化研学",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "以关公文化、古建保护为主题的研学体验活动。"
+  },
+  {
+    "id": "elem-F06",
+    "name": "城市记忆主题活动",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "结合地方生活叙事的文化展陈活动。"
+  },
+  {
+    "id": "elem-F07",
+    "name": "非遗联展",
+    "category": "非物质",
+    "subcategory": "节庆与活动",
+    "description": "融合剪纸、面塑等晋地非遗的展示体验活动。"
+  },
+  {
+    "id": "elem-G01",
+    "name": "桃园结义",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "刘关张结为异姓兄弟，是“义”的起点与核心象征。"
+  },
+  {
+    "id": "elem-G02",
+    "name": "千里走单骑",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "关公保护嫂嫂，过五关斩六将寻刘备，体现“忠”。"
+  },
+  {
+    "id": "elem-G03",
+    "name": "华容道义释曹操",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "关公为报恩私放曹操，体现“恩义”两全之难。"
+  },
+  {
+    "id": "elem-G04",
+    "name": "刮骨疗毒",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "关公中箭毒，刮骨疗伤时谈笑自若，体现“勇”。"
+  },
+  {
+    "id": "elem-G05",
+    "name": "玉泉山显圣",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "关公遇害后于玉泉山显灵，皈依佛门，成为护法神。"
+  },
+  {
+    "id": "elem-G06",
+    "name": "地方显灵传说",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "与本地历史、地理结合，讲述关公护佑一方的故事。"
+  },
+  {
+    "id": "elem-G07",
+    "name": "太原筑城显圣",
+    "category": "非物质",
+    "subcategory": "故事与传说",
+    "description": "北宋建太原城时关公显圣指引马迹，助筑城成功。"
+  }
+]

@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>关帝庙 · 数字文化小程序</title>
+<style>
+:root {
+  --primary: #9B1B30;
+  --primary-light: #C41E3A;
+  --primary-dark: #7A1426;
+  --gold: #C8962E;
+  --gold-light: #E8C46A;
+  --gold-dark: #A67B22;
+  --cream: #FEF5E7;
+  --parchment: #F5E6CC;
+  --ink: #2C1810;
+  --ink-light: #5A3D31;
+  --ink-muted: #8B7355;
+  --bg: #F9F0E2;
+  --bg-alt: #F0E4D0;
+  --white: #FFFBF5;
+  --shadow: rgba(44,24,16,0.08);
+  --shadow-lg: rgba(44,24,16,0.18);
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --font-serif: "Noto Serif SC","Source Han Serif SC","STSong","SimSun","Songti SC",serif;
+  --font-sans: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+  --tab-h: 56px;
+  --header-h: 50px;
+  --safe-bottom: env(safe-area-inset-bottom,0px);
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  display:flex;
+  flex-direction:column;
+}
+.app-shell{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  max-width:480px;
+  width:100%;
+  margin:0 auto;
+  background:var(--white);
+  box-shadow:0 0 40px var(--shadow);
+  position:relative;
+  overflow:hidden;
+  height:100%;
+}
+.app-header{
+  height:var(--header-h);
+  background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 16px;
+  flex-shrink:0;
+  position:relative;
+  z-index:10;
+}
+.app-header h1{
+  font-family:var(--font-serif);
+  font-size:17px;
+  color:var(--gold-light);
+  letter-spacing:3px;
+  font-weight:600;
+}
+.app-header .header-deco{
+  position:absolute;
+  bottom:0;
+  left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.app-header .back-btn{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--gold-light);
+  background:none;
+  border:none;
+  font-size:20px;
+  cursor:pointer;
+  display:none;
+  padding:4px 8px;
+  opacity:0.8;
+}
+.app-header .back-btn:active{opacity:1}
+.qr-btn{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid rgba(232,196,106,0.45);
+  background:rgba(255,255,255,0.08);
+  color:var(--gold-light);
+  font-size:17px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  opacity:0.9;
+}
+.qr-btn:active{opacity:1;background:rgba(232,196,106,0.18)}
+.page-container{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+}
+.page{
+  position:absolute;
+  inset:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding:0 0 8px 0;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.25s ease, transform 0.25s ease;
+  transform:translateY(8px);
+}
+.page.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+.tab-bar{
+  height:calc(var(--tab-h) + var(--safe-bottom));
+  padding-bottom:var(--safe-bottom);
+  background:var(--white);
+  border-top:1px solid var(--bg-alt);
+  display:flex;
+  flex-shrink:0;
+  box-shadow:0 -2px 12px var(--shadow);
+  position:relative;
+  z-index:20;
+}
+.tab-item{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;
+  padding:4px 0;
+  transition:var(--transition);
+}
+.tab-item .tab-icon{font-size:22px;line-height:1;transition:var(--transition)}
+.tab-item .tab-label{font-size:10px;color:var(--ink-muted);transition:var(--transition);letter-spacing:0.5px}
+.tab-item.active .tab-icon{transform:scale(1.1)}
+.tab-item.active .tab-label{color:var(--primary);font-weight:600}
+.tab-item.active::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:24px;
+  height:2.5px;
+  background:var(--primary);
+  border-radius:0 0 3px 3px;
+}
+.tab-item:active{opacity:0.7}
+.page-home{padding:0}
+.home-hero{
+  background:linear-gradient(160deg,var(--primary-dark) 0%,var(--primary) 50%,var(--primary-light) 100%);
+  padding:40px 24px 36px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.home-hero::after{
+  content:"關";
+  position:absolute;
+  top:-20px;
+  right:-10px;
+  font-size:160px;
+  font-family:var(--font-serif);
+  color:rgba(232,196,106,0.06);
+  pointer-events:none;
+  line-height:1;
+  user-select:none;
+}
+.home-hero .hero-icon{
+  width:56px;
+  height:56px;
+  margin:0 auto 12px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:var(--ink);
+  font-family:var(--font-serif);
+  font-weight:bold;
+  box-shadow:0 4px 20px rgba(200,150,46,0.3);
+}
+.home-hero h2{
+  font-family:var(--font-serif);
+  font-size:26px;
+  color:var(--white);
+  letter-spacing:6px;
+  margin-bottom:4px;
+}
+.home-hero .hero-sub{
+  font-size:11px;
+  color:var(--gold-light);
+  letter-spacing:2px;
+  opacity:0.8;
+  margin-bottom:14px;
+}
+.home-hero .hero-desc{
+  font-size:13px;
+  color:rgba(255,251,245,0.75);
+  line-height:1.6;
+  max-width:300px;
+  margin:0 auto;
+}
+.home-hero .hero-line{
+  width:40px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold));
+  margin:14px auto;
+  border-radius:1px;
+}
+.home-features{padding:16px 16px 8px}
+.home-features .section-label{font-size:13px;color:var(--ink-muted);margin-bottom:10px;padding-left:2px;font-weight:500}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.feature-card{
+  background:var(--cream);
+  border-radius:var(--radius);
+  padding:16px 14px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:var(--transition);
+  border:1px solid transparent;
+}
+.feature-card:active{transform:scale(0.97);border-color:var(--gold-light)}
+.feature-card .fc-icon{font-size:28px;margin-bottom:6px;display:block}
+.feature-card h4{font-size:14px;color:var(--ink);margin-bottom:3px;font-weight:600}
+.feature-card p{font-size:11px;color:var(--ink-muted);line-height:1.5}
+.home-footer{padding:20px 16px;text-align:center}
+.home-footer .hf-line{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px}
+.home-footer .hf-line span{display:block;width:20px;height:1px;background:var(--gold);opacity:0.25}
+.home-footer .hf-line .diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);opacity:0.25}
+.home-footer p{font-size:11px;color:var(--ink-muted);opacity:0.6}
+.page-exhibits{padding:0}
+.page-header{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between}
+.page-header h2{font-family:var(--font-serif);font-size:17px;color:var(--ink);letter-spacing:1px}
+.page-header .badge{font-size:10px;background:var(--primary);color:var(--white);padding:2px 10px;border-radius:20px;letter-spacing:0.5px}
+.exhibit-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:14px}
+
+.exhibit-card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:0 2px 12px var(--shadow);
+  border:1px solid var(--bg-alt);
+  transition:var(--transition);
+}
+.exhibit-card .ec-img{
+  width:100%;
+  height:140px;
+  background:linear-gradient(135deg,var(--bg),var(--bg-alt));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:52px;
+  position:relative;
+  overflow:hidden;
+}
+.exhibit-card .ec-img .ec-category{
+  position:absolute;
+  top:12px;
+  left:12px;
+  font-size:10px;
+  background:rgba(155,27,48,0.85);
+  color:var(--white);
+  padding:3px 12px;
+  border-radius:20px;
+  letter-spacing:0.5px;
+}
+.exhibit-card .ec-img .ec-protection{
+  position:absolute;
+  top:12px;
+  right:12px;
+  font-size:9px;
+  background:rgba(200,150,46,0.9);
+  color:var(--white);
+  padding:2px 10px;
+  border-radius:20px;
+  letter-spacing:0.3px;
+}
+.exhibit-card .ec-body{padding:14px 16px 16px}
+.exhibit-card .ec-body h3{
+  font-family:var(--font-serif);
+  font-size:17px;
+  color:var(--ink);
+  margin-bottom:2px;
+  font-weight:600;
+}
+.exhibit-card .ec-addr{
+  font-size:11px;
+  color:var(--ink-muted);
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.exhibit-card .ec-addr::before{content:"📍";font-size:12px}
+.exhibit-card .ec-desc{
+  font-size:13px;
+  color:var(--ink-light);
+  line-height:1.7;
+  margin-bottom:6px;
+}
+.exhibit-card .ec-toggle{
+  font-size:12px;
+  color:var(--primary);
+  cursor:pointer;
+  user-select:none;
+  display:inline-block;
+  padding:4px 0;
+  font-weight:500;
+}
+.exhibit-card .ec-toggle:active{opacity:0.7}
+.exhibit-card .ec-extra{
+  display:none;
+  margin-top:12px;
+  padding-top:14px;
+  border-top:1px solid var(--bg-alt);
+}
+.exhibit-card .ec-extra.open{display:block}
+.exhibit-card .ec-extra .extra-item{margin-bottom:12px}
+.exhibit-card .ec-extra .extra-item:last-child{margin-bottom:0}
+.exhibit-card .ec-extra .extra-item .elabel{
+  font-size:11px;
+  color:var(--gold-dark);
+  font-weight:600;
+  margin-bottom:3px;
+  letter-spacing:0.5px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.exhibit-card .ec-extra .extra-item .elabel::before{
+  content:"▸";
+  color:var(--gold);
+}
+.exhibit-card .ec-extra .extra-item p{
+  font-size:12px;
+  color:var(--ink-light);
+  line-height:1.8;
+  padding-left:4px;
+}
+.exhibit-card .ec-extra .extra-item .tag-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding-top:2px;
+}
+.exhibit-card .ec-extra .extra-item .tag{
+  font-size:10px;
+  background:var(--cream);
+  color:var(--ink-muted);
+  padding:2px 10px;
+  border-radius:12px;
+  border:1px solid var(--bg-alt);
+}
+
+/* AR 页面 */
+.page-ar{padding:0;display:flex;flex-direction:column}
+.ar-container{flex:1;display:flex;flex-direction:column;position:relative}
+#three-container{
+  flex:1;
+  min-height:300px;
+  background:linear-gradient(180deg,#1a0f0a 0%,#2c1810 100%);
+  position:relative;
+  overflow:hidden;
+}
+#three-container canvas{display:block;width:100%!important;height:100%!important}
+.ar-overlay-badge{
+  position:absolute;
+  top:48px;
+  left:12px;
+  font-size:10px;
+  background:rgba(0,0,0,0.6);
+  color:var(--gold-light);
+  padding:4px 12px;
+  border-radius:20px;
+  letter-spacing:0.5px;
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(200,150,46,0.2);
+  z-index:1;
+  pointer-events:none;
+}
+.ar-info{padding:16px;background:var(--white)}
+.ar-info h3{font-family:var(--font-serif);font-size:16px;color:var(--ink);margin-bottom:4px}
+.ar-info p{font-size:12px;color:var(--ink-muted);line-height:1.6}
+
+/* AR场景选择器 */
+.ar-scene-selector{
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  background:rgba(0,0,0,0.5);
+  border-radius:20px;
+  padding:3px;
+  z-index:5;
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(200,150,46,0.25);
+}
+.ar-scene-btn{
+  padding:5px 14px;
+  border-radius:17px;
+  border:none;
+  background:transparent;
+  color:var(--gold-light);
+  font-size:12px;
+  cursor:pointer;
+  transition:var(--transition);
+  white-space:nowrap;
+  font-family:var(--font-sans);
+}
+.ar-scene-btn.active{
+  background:var(--gold);
+  color:var(--ink);
+  font-weight:600;
+}
+
+/* 建筑详情弹窗 */
+.building-modal {
+  display:none;
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:10;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(4px);
+  padding:20px;
+}
+.building-modal.show {
+  display:flex;
+}
+.building-modal .card {
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  max-width:380px;
+  width:100%;
+  max-height:80%;
+  overflow-y:auto;
+  padding:20px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  position:relative;
+}
+.building-modal .card .close-btn {
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:24px;
+  color:var(--ink-muted);
+  cursor:pointer;
+  background:none;
+  border:none;
+  padding:4px;
+}
+.building-modal .card .close-btn:active{opacity:0.6}
+.building-modal .card .b-title {
+  font-family:var(--font-serif);
+  font-size:20px;
+  color:var(--primary);
+  margin-bottom:4px;
+}
+.building-modal .card .b-sub {
+  font-size:12px;
+  color:var(--ink-muted);
+  margin-bottom:12px;
+}
+.building-modal .card .b-panorama {
+  width:100%;
+  height:160px;
+  background:linear-gradient(135deg,var(--bg),var(--bg-alt));
+  border-radius:var(--radius-sm);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:60px;
+  margin-bottom:12px;
+  border:1px solid var(--bg-alt);
+}
+.building-modal .card .b-desc {
+  font-size:13px;
+  color:var(--ink-light);
+  line-height:1.7;
+}
+.building-modal .card .b-detail {
+  font-size:12px;
+  color:var(--ink-muted);
+  line-height:1.6;
+  margin-top:8px;
+  padding-top:10px;
+  border-top:1px solid var(--bg-alt);
+}
+
+.page-products{padding:0}
+.product-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:14px}
+.product-card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:0 2px 12px var(--shadow);
+  border:1px solid var(--bg-alt);
+  display:flex;
+  flex-direction:column;
+}
+.product-card .pc-img{
+  width:100%;
+  height:160px;
+  background:linear-gradient(135deg,var(--cream),var(--parchment));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:56px;
+}
+.product-card .pc-body{padding:14px 16px 16px}
+.product-card .pc-body h3{font-family:var(--font-serif);font-size:16px;color:var(--ink);margin-bottom:4px;font-weight:600}
+.product-card .pc-price{font-size:20px;color:var(--primary);font-weight:700;margin-bottom:6px}
+.product-card .pc-price .unit{font-size:12px;font-weight:normal;color:var(--ink-muted)}
+.product-card .pc-desc{font-size:12px;color:var(--ink-light);line-height:1.7;margin-bottom:8px}
+.product-card .pc-story{font-size:11px;color:var(--ink-muted);line-height:1.6;padding:10px 12px;background:var(--cream);border-radius:var(--radius-sm);margin-bottom:12px}
+.product-card .pc-story::before{content:"\201C";color:var(--gold);font-size:18px;font-family:var(--font-serif);margin-right:2px}
+.product-card .pc-story::after{content:"\201D";color:var(--gold);font-size:18px;font-family:var(--font-serif);margin-left:2px}
+.product-card .pc-btn{
+  display:block;
+  width:100%;
+  padding:10px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:var(--white);
+  border:none;
+  border-radius:var(--radius-sm);
+  font-size:14px;
+  font-weight:500;
+  cursor:pointer;
+  transition:var(--transition);
+  letter-spacing:1px;
+}
+.product-card .pc-btn:active{transform:scale(0.98);opacity:0.9}
+.toast{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0.85);
+  background:rgba(44,24,16,0.88);
+  color:var(--white);
+  padding:12px 24px;
+  border-radius:var(--radius);
+  font-size:13px;
+  z-index:9999;
+  opacity:0;
+  pointer-events:none;
+  transition:all 0.25s ease;
+  backdrop-filter:blur(8px);
+  text-align:center;
+  max-width:70%;
+}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.page::-webkit-scrollbar{width:3px}
+.page::-webkit-scrollbar-track{background:transparent}
+.page::-webkit-scrollbar-thumb{background:var(--bg-alt);border-radius:3px}
+@media(min-width:481px){
+  .app-shell{border-radius:var(--radius-lg);margin:12px auto;height:calc(100% - 24px)}
+}
+@media(max-width:360px){
+  .exhibit-card .ec-img{height:110px}
+  .product-card .pc-img{height:130px}
+  .home-hero{padding:28px 16px 28px}
+  .home-hero h2{font-size:22px}
+}
+
+.search-box{display:flex;gap:8px;margin:12px 0;padding:0 16px}
+.search-box input{flex:1;padding:8px 12px;border:1px solid #ddd;border-radius:20px;font-size:14px;outline:none;background:var(--cream)}
+.search-box input:focus{border-color:var(--gold)}
+.pagi{display:flex;justify-content:center;gap:6px;margin:16px 0;flex-wrap:wrap}
+.pagi button{padding:6px 14px;border:1px solid var(--gold);border-radius:4px;background:transparent;color:var(--gold);cursor:pointer;font-size:13px}
+.pagi button.active{background:var(--gold);color:#fff}
+.pagi button:disabled{opacity:.4;cursor:default}
+.prod-count{font-size:12px;color:var(--ink-muted);padding:0 16px 4px}
+.chat-btn{position:fixed;bottom:80px;right:16px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.3);z-index:100}
+.chat-panel{display:none;position:fixed;bottom:145px;right:16px;width:320px;max-height:420px;background:#fff;border:1px solid var(--gold);border-radius:12px;overflow:hidden;z-index:101;box-shadow:0 4px 20px rgba(0,0,0,.25);flex-direction:column}
+.chat-panel.show{display:flex}
+.chat-hdr{background:var(--primary);color:#fff;padding:10px 14px;font-size:14px;font-weight:600;display:flex;justify-content:space-between}
+.chat-hdr button{background:none;border:none;color:#fff;font-size:18px;cursor:pointer}
+.chat-body{flex:1;overflow-y:auto;padding:10px 14px;min-height:200px;max-height:280px;font-size:13px;line-height:1.5;background:var(--bg)}
+.chat-inp{display:flex;border-top:1px solid #ddd;background:#fff}
+.chat-inp input{flex:1;border:none;padding:10px 12px;font-size:13px;outline:none}
+.chat-inp button{background:var(--gold);color:#fff;border:none;padding:10px 16px;cursor:pointer;font-size:13px}
+.cmsg{margin:6px 0;padding:8px 12px;border-radius:8px;max-width:85%}
+.cmsg.user{background:var(--gold-light);color:var(--ink);align-self:flex-end;margin-left:auto}
+.cmsg.bot{background:var(--cream);color:var(--ink);border:1px solid #e0d5c0}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--gold);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.qr-mask{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(20,10,6,0.55);
+  z-index:200;
+  backdrop-filter:blur(3px);
+}
+.qr-mask.show{display:block}
+.qr-panel{
+  display:none;
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(320px, calc(100vw - 40px));
+  background:var(--white);
+  border:1px solid var(--gold);
+  border-radius:16px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.35);
+  z-index:201;
+  overflow:hidden;
+  flex-direction:column;
+}
+.qr-panel.show{display:flex}
+.qr-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  background:var(--primary);
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+}
+.qr-head button{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  padding:2px 4px;
+}
+.qr-body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  padding:18px 16px 20px;
+  text-align:center;
+}
+.qr-box{
+  width:220px;
+  height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--cream);
+  border:1px solid var(--bg-alt);
+  border-radius:10px;
+  overflow:hidden;
+}
+.qr-box canvas,.qr-box img{display:block}
+.qr-body>p{font-size:12px;color:var(--ink-muted)}
+.qr-url{
+  width:100%;
+  font-size:11px;
+  color:var(--ink-light);
+  background:var(--bg);
+  border:1px solid var(--bg-alt);
+  border-radius:8px;
+  padding:8px 10px;
+  word-break:break-all;
+}
+.qr-copy{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:var(--gold);
+  color:var(--ink);
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+}
+.qr-copy:active{opacity:0.85}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app-shell">
+  <header class="app-header">
+    <button class="back-btn" id="backBtn" onclick="goHome()">‹</button>
+    <h1>关帝庙 · 数字文化</h1>
+    <button class="qr-btn" id="qrBtn" onclick="toggleQRPanel()" title="扫码访问" aria-label="扫码访问">📱</button>
+    <div class="header-deco"></div>
+  </header>
+  <div class="page-container">
+    <!-- 首页 -->
+    <div class="page page-home active" id="page-home">
+      <div class="home-hero">
+        <div class="hero-icon">關</div>
+        <h2>关帝庙</h2>
+        <div class="hero-sub">GUAN YU TEMPLE · CULTURAL HERITAGE</div>
+        <div class="hero-line"></div>
+        <p class="hero-desc">以数字化手段活化关帝庙文化遗产，融合展品数据库、AR 三维展示与数字文创，让传统在指尖重现光彩。</p>
+      </div>
+      <div class="home-features">
+        <div class="section-label">— 探索内容 —</div>
+        <div class="feature-grid">
+          <div class="feature-card" onclick="switchTab(1)">
+            <span class="fc-icon">🏛</span>
+            <h4>展品数据库</h4>
+            <p>六处关帝庙·历史档案｜建筑形制｜文化元素</p>
+          </div>
+          <div class="feature-card" onclick="switchTab(2)">
+            <span class="fc-icon">🕶</span>
+            <h4>AR 体验</h4>
+            <p>点击建筑 · 查看全景细节与文史解读</p>
+          </div>
+          <div class="feature-card" onclick="switchTab(3)">
+            <span class="fc-icon">🏮</span>
+            <h4>数字文创</h4>
+            <p>200+ 款关帝庙主题文创产品，让文化走进日常生活</p>
+          </div>
+          <div class="feature-card" onclick="showToast('更多功能开发中…')">
+            <span class="fc-icon">📖</span>
+            <h4>文化百科</h4>
+            <p>关帝信仰历史、庙宇建筑、民俗活动知识库</p>
+          </div>
+        </div>
+      </div>
+      <div class="home-footer">
+        <div class="hf-line"><span></span><span class="diamond"></span><span></span></div>
+        <p>关帝庙 · 文化数字遗产平台 ｜ 数据源自太原五处关帝庙及解州关帝祖庙调研资料</p>
+      </div>
+    </div>
+    <!-- 展品页 -->
+    <div class="page page-exhibits" id="page-exhibits">
+      <div class="page-header">
+        <h2>🏛 展品数据库</h2>
+        <span class="badge" id="exhibitBadge">6 处</span>
+      </div>
+      <div class="exhibit-list" id="exhibitList"></div>
+    </div>
+    <!-- AR页 -->
+    <div class="page page-ar" id="page-ar">
+      <div class="ar-container">
+        <div id="three-container">
+          <div class="ar-scene-selector" id="arSceneSelector">
+            <button class="ar-scene-btn active" data-scene="taiyuan" onclick="switchARScene('taiyuan')">太原大关帝庙</button>
+            <button class="ar-scene-btn" data-scene="xiezhou" onclick="switchARScene('xiezhou')">解州关帝祖庙</button>
+          </div>
+          <span class="ar-overlay-badge">▶ 点击建筑查看详情</span>
+          <!-- 建筑详情弹窗 -->
+          <div class="building-modal" id="buildingModal">
+            <div class="card">
+              <button class="close-btn" onclick="closeBuildingModal()">✕</button>
+              <div class="b-title" id="modalTitle">崇宁殿</div>
+              <div class="b-sub" id="modalSub">大关帝庙 · 正殿</div>
+              <div class="b-panorama" id="modalPanorama">🏯</div>
+              <div class="b-desc" id="modalDesc">殿内采用"减柱法"结构，修复时以碳纤维板加固梁架，维持原受力逻辑。</div>
+              <div class="b-detail" id="modalDetail">面阔进深各三间，歇山琉璃瓦顶，明间出单坡歇山顶抱厦。殿内梁架与彩绘保留明代风格。</div>
+            </div>
+          </div>
+        </div>
+        <div class="ar-info" id="arInfo">
+          <h3>大关帝庙 · 核心建筑群</h3>
+          <p>山门 · 崇宁殿 · 春秋楼 · 钟楼 · 鼓楼 ｜ 点击任意建筑，查看全景示意图与文史解读。</p>
+        </div>
+      </div>
+    </div>
+    <!-- 文创页 -->
+    <div class="page page-products" id="page-products">
+      <div class="search-box"><input id="prodSearch" type="text" placeholder="搜索文创产品..." onkeyup="searchProducts()"><button onclick="searchProducts()" style="padding:8px 16px;background:var(--gold);color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:13px;">搜索</button></div>
+      <div class="prod-count" id="prodCount"></div>
+      <div class="page-header">
+        <h2>🏮 数字文创</h2>
+        <span class="badge">1 / 200+</span>
+      </div>
+      <div class="product-list" id="productList"></div>
+    </div>
+  </div>
+  <nav class="tab-bar" id="tabBar">
+    <div class="tab-item active" data-tab="0" onclick="switchTab(0)"><span class="tab-icon">🏠</span><span class="tab-label">首页</span></div>
+    <div class="tab-item" data-tab="1" onclick="switchTab(1)"><span class="tab-icon">🏛</span><span class="tab-label">展品</span></div>
+    <div class="tab-item" data-tab="2" onclick="switchTab(2)"><span class="tab-icon">🕶</span><span class="tab-label">AR体验</span></div>
+    <div class="tab-item" data-tab="3" onclick="switchTab(3)"><span class="tab-icon">🏮</span><span class="tab-label">文创</span></div>
+  </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// ============================================================
+// 1. 展品数据库 —— 六处关帝庙
+// ============================================================
+var EXHIBITS = [
+  {
+    id: 1,
+    name: "大关帝庙",
+    category: "关帝庙",
+    protection: "全国重点文物保护单位（第七批）",
+    address: "迎泽区庙前街36号",
+    icon: "🏯",
+    shortDesc: "太原市规模最大、形制最完整的关帝庙建筑群。坐北朝南，二进院落，中轴线上依次为山门、崇宁殿、春秋楼，两侧钟鼓楼、碑廊、厢房等25间。金元基址上的明清建筑，占地约3500平方米。",
+    history: "创建年代不详，现存为金元基址上的明代建筑。相传北宋新建太原城时，因西城墙屡建屡崩，关羽云中显圣指引马迹筑城成功，民众感念始建此庙。历经抗金、抗元战争兵火，历代均有重修，主体为明代遗迹，余为清代遗物。庙内留存民国三十年碑刻，殿内梁架与彩绘保留明代风格。",
+    layout: "坐北朝南，前后二重院布局。中轴线：山门→崇宁殿→春秋楼。崇宁殿面阔进深各三间，歇山琉璃瓦顶，明间出单坡歇山顶抱厦；春秋楼为二层楼阁，平面方形，重檐歇山筒瓦顶，琉璃瓦剪边，上下层前檐均设廊，两侧与厢房、客堂楼阁相连。",
+    features: "崇宁殿采用'减柱法'结构，修复时以碳纤维板加固梁架，维持原受力逻辑；钟鼓楼斗栱仅更换腐朽构件，其余保留。东别院玻璃栈道展示基址叠压关系。2006年绘制壁画，与关羽'神化'叙事关联。2019年作为太原唯一'万里茶道'遗产提名点进入《中国世界文化遗产预备名单》。",
+    activation: "常态化举办关公文化展、非遗技艺展、晋商文化展及讲座。通过'关公文化展'将建筑空间转化为文物展示、文化教育与旅游体验相结合的公共空间。",
+    cultural: "琉璃瓦纹饰、关公坐像、'行义常昭为圣为神名垂万古，天心可协允文允武威振八方'楹联、民国碑刻、明代梁架彩绘、2006年壁画",
+    tags: ["关公文化", "万里茶道", "减柱法", "明代彩绘", "琉璃瓦"]
+  },
+  {
+    id: 2,
+    name: "唱经楼",
+    category: "科举文化",
+    protection: "全国重点文物保护单位（第七批）",
+    address: "杏花岭区鼓楼街33号",
+    icon: "📜",
+    shortDesc: "明清科举文化中罕见的'宣唱金榜'场所。工字形院落，两层木结构，由唱经楼、正殿、春秋楼、通廊组成。唱经楼为主体建筑，坐北朝南，两层楼阁式，重檐十字歇山顶。",
+    history: "始建于明代初期，重修于明正德年间，明万历年间扩建，清康熙三十五年增建春秋楼，清道光八年重修。原为旧时山西科考唱榜之处，前明秋榜揭晓时五经魁首在此宣唱，故名'唱经楼'。",
+    layout: "工字形院落。唱经楼：平面方形，重檐十字歇山顶，一层面宽三间进深三间，明间出卷棚抱厦檐；二层面宽进深均一间，檐下施五踩双翘斗栱。正殿：面宽三间进深五架，单檐歇山顶，不设斗栱。春秋楼：正殿东侧，高二层，一层三间窑洞，二层面宽三间进深二间，单檐硬山顶前廊式。琉璃瓦屋脊。",
+    features: "科举制度文化稀缺实物遗存。'五魁厅'与'唱经阁'功能区分清晰，与明清乡试揭榜仪式直接关联。孔雀蓝琉璃剪边为特色。2003年前后采用'原址、落架、拆卸式修缮'传统木构维修方式。",
+    activation: "设有《唱经楼里话科举》展览，展现科举沿革。作为关帝庙博物馆管理的文保单位，融入太原'博物馆之城'建设，通过文化展览传递科举文化与关公文化（春秋楼关联）的交融内涵。",
+    cultural: "十字歇山顶、五踩双翘斗栱、琉璃瓦屋脊、孔雀蓝琉璃剪边、'宣唱金榜'制度记忆、科举文化符号",
+    tags: ["科举文化", "宣唱金榜", "十字歇山", "孔雀蓝琉璃", "明清木构"]
+  },
+  {
+    id: 3,
+    name: "南肖墙关帝庙",
+    category: "关帝庙 · 城市记忆",
+    protection: "市级文物保护单位",
+    address: "杏花岭区南肖墙23号（南肖墙街88号）",
+    icon: "🏛️",
+    shortDesc: "清代建筑，四合院落布局。中轴线有献殿、正殿，正殿为二层楼阁式，面宽五间，单檐悬山顶，绿琉璃瓦剪边。与东侧浙江会馆合并公布为市级文保单位。",
+    history: "建于清代中期，由当地商户集资修建，作为关公信仰的民间祭祀场所。2000年太原市政府将其与东侧浙江会馆合并公布为市级文物保护单位。2013年与府城文物建筑修缮行动同频推进大修。",
+    layout: "东西41.89米，南北30.90米，占地面积1294.40平方米。四合院落布局，由东、西偏院构成。西院中轴线保留献殿、正殿，两侧为厢房。正殿为二层楼阁式，面宽五间，单檐悬山顶，绿琉璃瓦剪边。",
+    features: "'偏院+展厅'空间结构，在不挤占核心礼制空间的前提下，具备嵌入展陈、教育与公共文化功能。现为太原城市记忆馆，以时间序列组织展陈内容，分为'新生·希望''理想·探索''开放·变革''生活大爆炸''锦绣·太原'五部分。",
+    activation: "太原城市记忆馆（首批类博物馆），以市民捐赠的老物件（扫盲证、'大哥大'、生活账册等两三万件）讲述城市变迁。由30余名志愿者运营，年均推出近150场展览。设有面塑工艺制作的大型关公立像，形成'地方生活叙事+关公文化符号'双重阐释路径。",
+    cultural: "老物件（扫盲毕业证、大哥大、账册）、面塑关公像、城市生活记忆、浙江会馆关联、'锦绣·太原'主题展陈",
+    tags: ["城市记忆", "老物件", "面塑关公", "志愿运营", "类博物馆"]
+  },
+  {
+    id: 4,
+    name: "西校尉营关帝庙",
+    category: "关帝庙 · 塑像群",
+    protection: "市级文物保护单位（第一批）",
+    address: "迎泽区柳巷街道西校尉营25号",
+    icon: "⚔️",
+    shortDesc: "太原现存5座关帝庙中历史最悠久的一座，始建于宋代。二进院落，中轴线为山门→献殿→正殿→寝宫，两侧配殿、钟鼓楼。正殿绿琉璃瓦覆盖，寝宫塑像群独具特色。",
+    history: "始建于宋代，重建于元代，后经明清多次重修。1983年被公布为第一批市级文物保护单位。庙内原存12尊元代尚乐侍女像，1964年移入晋祠博物馆，现展陈为一比一复制品。",
+    layout: "坐北朝南，两进院落，南北长57.93米、东西宽32.55米，占地1275.94平方米。中轴线：山门→献殿→正殿→寝宫。正殿面宽五间进深四椽，单檐悬山顶，五檩无廊式构架，绿琉璃瓦覆盖，前檐明、次间出卷棚顶抱厦。寝宫面宽三间进深四椽，单檐悬山顶，脊部莲花座承垂花柱式八瓣花形脊瓜柱组合构件雕刻精美。",
+    features: "寝宫塑像体系：关羽夫妇像+十二侍女像（复制品），面颊丰满、造型生动。献殿两侧为钟鼓楼，殿内有三国王经典故事壁画。寝殿左侧陈列甲胄，展现古代甲胄演变。正殿仿宋建形式，琉璃瓦覆盖。",
+    activation: "通过塑像陈列、壁画展示呈现关公文化。举办'无锁不谈——中国古代锁具专题展'，通过锁具实物传递民俗文化。甲胄陈列展现武将元素与关公'勇'文化的关联。",
+    cultural: "元代侍女像复制品（衣纹造型、面部神态）、三国故事壁画、甲胄、锁具纹饰与吉祥寓意、绿琉璃瓦、脊部垂花柱雕刻",
+    tags: ["元代侍女像", "三国壁画", "甲胄", "锁具文化", "绿琉璃瓦", "宋代始建"]
+  },
+  {
+    id: 5,
+    name: "西校尉营奶奶庙",
+    category: "关帝庙 · 关娘娘",
+    protection: "市级文物保护单位",
+    address: "迎泽区西校尉营23号",
+    icon: "🌸",
+    shortDesc: "专门供奉关娘娘（关羽夫人）的祠堂，太原特有的文化遗存。与西校尉营关帝庙紧密相连，形成'关帝庙进，奶奶庙出'的单向参观路线。",
+    history: "清代建筑，由当地居民捐建，是太原市区少见的民间信仰类庙宇。将关公宗教信仰与民间对关娘娘的崇拜相结合，形成独特的民俗文化景象。",
+    layout: "与关帝庙隔墙互通，砖木结构，坐北朝南，面阔三间、进深五椽，悬山顶。房屋为砖木结构，融入西校尉营庙宇集群的空间布局。",
+    features: "太原特有的'关娘娘'崇拜遗存，从女性视角延伸关公文化。室内存放剪纸工艺品，工作人员计划进一步布置展览，以传统技艺展示承接社区文化传承与公共教育功能。",
+    activation: "现辟为展厅，作为西校尉营庙宇参观路线的重要组成部分。与关帝庙的专题展览形成互补，通过陈列展览让公众了解太原地区独特的关公民俗文化。",
+    cultural: "关娘娘塑像、剪纸工艺、民俗文化、女性视角的关公信仰、社区型小体量文保点活化",
+    tags: ["关娘娘", "女性视角", "剪纸工艺", "民俗信仰", "社区活化"]
+  },
+  {
+    id: 6,
+    name: "解州关帝祖庙",
+    category: "关帝庙 · 武庙之冠",
+    protection: "全国重点文物保护单位（第三批）",
+    address: "山西省运城市盐湖区解州镇西关五一路145号",
+    icon: "👑",
+    shortDesc: "始建于隋开皇九年（589年），距今1400余年，是中国现存始建最早、规模最大、建制最高、保存最完整的关帝庙，素有'关庙之祖，武庙之冠'之称。占地22万平方米，采用'前朝后寝'宫殿式布局。",
+    history: "创建于隋初（约589年），宋大中祥符七年（1014年）首次由帝王敕建扩建，金元明清历代重修。清康熙四十一年（1702年）毁于大火，经十余年修复。1988年列入第三批全国重点文物保护单位。2023年升级为'运城关公故里文化旅游景区'，列入中国世界文化遗产预备名单。",
+    layout: "分南北两大部分。南部为结义园（明万历建），由结义坊、君子亭、三义阁、莲池组成。北部正庙坐北朝南，采用'前朝后寝'中轴对称宫殿式布局。中轴线：端门→雉门→午门→御书楼→崇宁殿→'气肃千秋'坊→春秋楼→厚载门。两侧配钟鼓楼、刀楼、印楼、文经门、武纬门、崇圣祠、追风伯祠、胡公祠、碑亭、钟亭及东西回廊190余间。",
+    features: "崇宁殿四周26根蟠龙石柱为国内庙宇宫殿之最，34条蟠龙形态各异；殿内悬挂康熙'义炳乾坤'、乾隆'神勇'、咸丰'万世人极'、慈禧'威灵震叠'御匾。春秋楼高23米，'悬梁吊柱'结构为国内古建筑孤例，二楼壁板刻有《春秋》全文。明嘉靖四龙壁为国内唯一。大量琉璃、石雕、砖雕、木雕、铁艺装饰。",
+    activation: "常态化举办关帝诞辰祭祀、关公文化旅游节。2024年'黑神话·悟空'游戏取景地之一，春秋楼备受游人追捧。设有《关公文化》专题展览，通过建筑空间、文物陈列与数字化展示相结合，传递忠义仁勇精神。",
+    cultural: "26根蟠龙石柱、康熙'义炳乾坤'御匾、乾隆'神勇'匾额、咸丰'万世人极'匾额、慈禧'威灵震叠'匾额、悬梁吊柱结构、板刻《春秋》全文、四龙壁、明嘉靖焚表炉、铁狮铁人、琉璃剪边",
+    tags: ["关庙之祖", "武庙之冠", "隋代始建", "蟠龙石柱", "悬梁吊柱", "御笔匾额", "黑神话取景地"]
+  }
+];
+
+// ============================================================
+// 2. 渲染展品
+// ============================================================
+function renderExhibits() {
+  var list = document.getElementById('exhibitList');
+  var badge = document.getElementById('exhibitBadge');
+  if (badge) badge.textContent = EXHIBITS.length + ' 处';
+
+  var h = '';
+  for (var i = 0; i < EXHIBITS.length; i++) {
+    var e = EXHIBITS[i];
+    h += '<div class="exhibit-card" data-id="' + e.id + '">';
+    h += '<div class="ec-img">';
+    h += '<span style="opacity:0.5;font-size:56px">' + (e.icon || '🏛') + '</span>';
+    h += '<span class="ec-category">' + e.category + '</span>';
+    h += '<span class="ec-protection">' + e.protection + '</span>';
+    h += '</div>';
+    h += '<div class="ec-body">';
+    h += '<h3>' + e.name + '</h3>';
+    h += '<div class="ec-addr">' + e.address + '</div>';
+    h += '<p class="ec-desc">' + e.shortDesc + '</p>';
+    h += '<span class="ec-toggle" onclick="toggleExtra(this)">▼ 展开详情</span>';
+    h += '<div class="ec-extra">';
+    if (e.history) h += '<div class="extra-item"><div class="elabel">历史沿革</div><p>' + e.history + '</p></div>';
+    if (e.layout) h += '<div class="extra-item"><div class="elabel">建筑布局</div><p>' + e.layout + '</p></div>';
+    if (e.features) h += '<div class="extra-item"><div class="elabel">特色亮点</div><p>' + e.features + '</p></div>';
+    if (e.activation) h += '<div class="extra-item"><div class="elabel">活化利用</div><p>' + e.activation + '</p></div>';
+    if (e.cultural) h += '<div class="extra-item"><div class="elabel">文化元素</div><p>' + e.cultural + '</p></div>';
+    if (e.tags && e.tags.length) {
+      h += '<div class="extra-item"><div class="elabel">关键词</div><div class="tag-group">';
+      for (var t = 0; t < e.tags.length; t++) h += '<span class="tag">#' + e.tags[t] + '</span>';
+      h += '</div></div>';
+    }
+    h += '</div></div></div>';
+  }
+  list.innerHTML = h;
+}
+
+function toggleExtra(el) {
+  var extra = el.nextElementSibling;
+  if (!extra || !extra.classList) return;
+  var isOpen = extra.classList.toggle('open');
+  el.textContent = isOpen ? '▲ 收起详情' : '▼ 展开详情';
+}
+
+// ============================================================
+// 3. Tab & AR (双场景：太原大关帝庙 + 解州关帝祖庙)
+// ============================================================
+var currentTab = 0;
+var threeInitialized = false;
+var threeScene = null;
+var threeAnimId = null;
+var buildingMeshes = [];
+var currentARScene = 'taiyuan'; // 'taiyuan' 或 'xiezhou'
+var threeLoading = false;
+
+function switchTab(idx) {
+  if (idx === currentTab) return;
+  var pages = ['page-home','page-exhibits','page-ar','page-products'];
+  var tabs = document.querySelectorAll('.tab-item');
+  for (var i = 0; i < pages.length; i++) {
+    document.getElementById(pages[i]).classList.remove('active');
+  }
+  tabs.forEach(function(t){t.classList.remove('active')});
+  document.getElementById(pages[idx]).classList.add('active');
+  tabs[idx].classList.add('active');
+  currentTab = idx;
+  if (idx === 2) {
+    initThree();
+  } else {
+    pauseThree();
+    var modal = document.getElementById('buildingModal');
+    if (modal && modal.classList.contains('show')) modal.classList.remove('show');
+  }
+  document.getElementById('backBtn').style.display = idx === 0 ? 'none' : 'block';
+}
+
+function goHome() { switchTab(0); }
+
+// ---- AR场景切换 ----
+function switchARScene(scene) {
+  if (scene === currentARScene) return;
+  currentARScene = scene;
+  var modal = document.getElementById('buildingModal');
+  if (modal && modal.classList.contains('show')) modal.classList.remove('show');
+  // 更新按钮状态
+  document.querySelectorAll('.ar-scene-btn').forEach(function(btn){
+    btn.classList.toggle('active', btn.dataset.scene === scene);
+  });
+  // 更新信息栏
+  updateARInfo();
+  // 只清理旧渲染器，保留选择器和弹窗DOM
+  if (threeScene) {
+    threeScene.running = false;
+    if (threeAnimId) { cancelAnimationFrame(threeAnimId); threeAnimId = null; }
+    var container = document.getElementById('three-container');
+    if (threeScene._resizeHandler) window.removeEventListener('resize', threeScene._resizeHandler);
+    if (threeScene._clickHandler) container.removeEventListener('click', threeScene._clickHandler);
+    if (threeScene._touchHandler) container.removeEventListener('touchstart', threeScene._touchHandler);
+    var canvas = threeScene.renderer.domElement;
+    if (canvas && canvas.parentNode === container) container.removeChild(canvas);
+    threeScene.renderer.dispose();
+    threeScene = null;
+    threeInitialized = false;
+    buildingMeshes = [];
+  }
+  initThree();
+}
+
+function updateARInfo() {
+  var info = document.getElementById('arInfo');
+  if (currentARScene === 'taiyuan') {
+    info.innerHTML = '<h3>大关帝庙 · 核心建筑群</h3><p>山门 · 崇宁殿 · 春秋楼 · 钟楼 · 鼓楼 ｜ 点击任意建筑，查看全景示意图与文史解读。</p>';
+  } else {
+    info.innerHTML = '<h3>解州关帝祖庙 · 前朝后寝宫殿式布局</h3><p>端门 · 雉门 · 午门 · 御书楼 · 崇宁殿 · 春秋楼 · 刀楼 · 印楼 · 钟鼓楼 ｜ 点击任意建筑，查看全景示意图与文史解读。</p>';
+  }
+}
+
+// ---- 建筑数据（按场景分组） ----
+var BUILDING_DATA = {
+  taiyuan: [
+    { id: 'shanmen', name: '山门', sub: '大关帝庙 · 入口', icon: '🚪',
+      desc: '大关帝庙正门，面阔三间，硬山琉璃瓦顶。门前原有石狮一对，现为文保单位入口。',
+      detail: '山门为庙宇第一进，两侧接钟鼓楼，形成"晨钟暮鼓"的礼制格局。现作为游客参观起点。' },
+    { id: 'chongning', name: '崇宁殿', sub: '大关帝庙 · 正殿', icon: '🏯',
+      desc: '殿内采用"减柱法"结构，修复时以碳纤维板加固梁架，维持原受力逻辑。',
+      detail: '面阔进深各三间，歇山琉璃瓦顶，明间出单坡歇山顶抱厦。殿内梁架与彩绘保留明代风格。' },
+    { id: 'chunqiu', name: '春秋楼', sub: '大关帝庙 · 后殿', icon: '📖',
+      desc: '二层楼阁建筑，重檐歇山筒瓦顶，琉璃瓦剪边。上层设廊，可远眺庙区。',
+      detail: '平面方形，上下层前檐均设廊，两侧与厢房、客堂楼阁相连。因关公夜读《春秋》而得名。' },
+    { id: 'zhonglou', name: '钟楼', sub: '大关帝庙 · 西侧', icon: '🔔',
+      desc: '二层方形楼阁，内悬铁钟，晨钟暮鼓中的"钟"位。',
+      detail: '修复时仅更换腐朽斗栱构件，其余保留原貌，体现"最小干预"原则。' },
+    { id: 'gulou', name: '鼓楼', sub: '大关帝庙 · 东侧', icon: '🥁',
+      desc: '二层方形楼阁，与钟楼对称，内置大鼓。',
+      detail: '与钟楼形制相同，左右呼应，共同构成庙宇的时空秩序。' }
+  ],
+  xiezhou: [
+    { id: 'duanmen', name: '端门', sub: '解州关帝祖庙 · 正门', icon: '🚪',
+      desc: '正庙第一道门，建于清代，通体砖构，歇山顶，檐下施仿木砖雕斗拱。上部书"关帝庙"门匾。',
+      detail: '端门前两侧有两尊明万历四十八年铸造的铁狮子，通高约四米，纹饰精美，铸造质量优良。' },
+    { id: 'zhimen', name: '雉门', sub: '解州关帝祖庙 · 礼仪之门', icon: '⚜️',
+      desc: '三开间歇山顶式样建筑，专供帝王出入。门后为倒座戏台。',
+      detail: '雉门与端门、午门共同构成"三门"格局，体现宫殿式庙宇的皇家规制。' },
+    { id: 'wumen', name: '午门', sub: '解州关帝祖庙 · 仪门', icon: '🏛',
+      desc: '庑殿顶式建筑，面阔五间，其间绘有青龙白虎与周仓、廖化之像。',
+      detail: '午门悬挂众多名流题写牌匾，是解州关帝庙书法艺术的集中展示区域。' },
+    { id: 'yushulou', name: '御书楼', sub: '解州关帝祖庙 · 御匾之楼', icon: '📜',
+      desc: '二层三檐歇山顶清代楼阁，原名八卦楼，因悬挂康熙御书"义炳乾坤"匾额于乾隆年间更名。',
+      detail: '建于清康熙四十二年（1703年），台基为明代遗存。是存放帝王御笔、重要典籍的场所。' },
+    { id: 'chongning_xz', name: '崇宁殿', sub: '解州关帝祖庙 · 主殿', icon: '👑',
+      desc: '殿四周26根巨大蟠龙石柱为国内庙宇宫殿之最。殿内悬挂康熙、乾隆、咸丰、慈禧四代御匾。',
+      detail: '重檐歇山顶，面阔七间，进深六间。神龛内供奉关帝帝王装塑像，两侧陈设清代銮驾。26根蟠龙石柱上34条蟠龙形态各异，升龙、降龙、祥云等雕刻粗犷有力。' },
+    { id: 'chunqiu_xz', name: '春秋楼', sub: '解州关帝祖庙 · 扛鼎之作', icon: '📚',
+      desc: '又名麟经阁，两层三檐歇山顶，高23米。"悬梁吊柱"结构为国内古建筑孤例。',
+      detail: '明万历年间创建，清同治九年重建。二楼暖阁内塑关羽侧身观《春秋》像，壁板内侧墨描刀刻《春秋》全文。二楼四周108个隔扇门象征清代108县，36级楼梯代表36州府。' },
+    { id: 'zhonglou_xz', name: '钟楼', sub: '解州关帝祖庙 · 西侧', icon: '🔔',
+      desc: '晨钟暮鼓之"钟"位，与鼓楼对称而立，东西廊房环绕。',
+      detail: '位于崇宁殿前东西两侧，与鼓楼、碑亭、钟亭共同构成前朝的完整礼制空间。' },
+    { id: 'gulou_xz', name: '鼓楼', sub: '解州关帝祖庙 · 东侧', icon: '🥁',
+      desc: '与钟楼对称，内置大鼓，共同维系庙宇的时空秩序。',
+      detail: '鼓楼与钟楼形制呼应，是解州关帝庙中轴线两侧的重要配属建筑。' },
+    { id: 'daolou', name: '刀楼', sub: '解州关帝祖庙 · 西侧配楼', icon: '⚔️',
+      desc: '跨春秋楼前左侧，内置青龙偃月刀模型。檐下额枋雕少年作琴棋书画与稚童戏耍浮雕。',
+      detail: '与印楼对称，为寝宫"烘云托月"之建筑。题材独特少见，构思别具一格。' },
+    { id: 'yinlou', name: '印楼', sub: '解州关帝祖庙 · 东侧配楼', icon: '🔷',
+      desc: '跨春秋楼前右侧，内置汉寿亭侯印模型。额枋浮雕题材独特。',
+      detail: '与刀楼共同拱卫春秋楼，形成"气肃千秋"坊后的完整后宫格局。' }
+  ]
+};
+
+// ---- Three.js 场景 ----
+function initThree() {
+  var container = document.getElementById('three-container');
+  if (!container) return;
+  if (threeScene) { resumeThree(); return; }
+  if (window.THREE && window.THREE.Scene) { buildTempleScene(container); return; }
+  if (threeLoading) return;
+  threeLoading = true;
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  script.onload = function() {
+    threeLoading = false;
+    var arPage = document.getElementById('page-ar');
+    if (arPage && arPage.classList.contains('active')) buildTempleScene(container);
+  };
+  script.onerror = function() {
+    threeLoading = false;
+    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gold-light);font-size:14px;text-align:center;padding:20px">⚠ Three.js 加载失败<br><span style="font-size:11px;opacity:0.6">请检查网络连接后刷新</span></div>';
+  };
+  document.body.appendChild(script);
+}
+
+function makeLabel(text, color) {
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = 256;
+  canvas.height = 80;
+  ctx.shadowColor = 'rgba(0,0,0,0.6)';
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = 'rgba(44,24,16,0.8)';
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect(10, 10, 236, 60, 12); } else { ctx.rect(10, 10, 236, 60); }
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = '#C8962E';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect(10, 10, 236, 60, 12); } else { ctx.rect(10, 10, 236, 60); }
+  ctx.stroke();
+  ctx.font = 'Bold 30px "PingFang SC", "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = color || '#E8C46A';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 128, 44);
+  var texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  var material = new THREE.SpriteMaterial({ map: texture, depthTest: false, depthWrite: false, transparent: true });
+  var sprite = new THREE.Sprite(material);
+  sprite.scale.set(1.6, 0.5, 1);
+  return sprite;
+}
+
+function buildTempleScene(container) {
+  var W = container.clientWidth || 480;
+  var H = container.clientHeight || 300;
+  var scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a0f0a);
+
+  var camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
+  
+  // 根据场景调整相机位置
+  if (currentARScene === 'xiezhou') {
+    camera.position.set(6, 5, 10);
+  } else {
+    camera.position.set(4.5, 3.5, 6.5);
+  }
+  camera.lookAt(0, 0, 0);
+
+  var renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+  container.appendChild(renderer.domElement);
+
+  // 灯光
+  var ambient = new THREE.AmbientLight(0x404060, 0.7);
+  scene.add(ambient);
+  var mainLight = new THREE.DirectionalLight(0xffeedd, 1.4);
+  mainLight.position.set(5, 10, 5);
+  mainLight.castShadow = true;
+  scene.add(mainLight);
+  var fillLight = new THREE.DirectionalLight(0x4488ff, 0.4);
+  fillLight.position.set(-4, 2, -3);
+  scene.add(fillLight);
+  var rimLight = new THREE.DirectionalLight(0xff8844, 0.5);
+  rimLight.position.set(-3, 2, 6);
+  scene.add(rimLight);
+  var backLight = new THREE.DirectionalLight(0x88aaff, 0.2);
+  backLight.position.set(-2, 1, -5);
+  scene.add(backLight);
+
+  var group = new THREE.Group();
+
+  // 地面（院落）
+  var groundW = currentARScene === 'xiezhou' ? 10 : 6;
+  var groundD = currentARScene === 'xiezhou' ? 12 : 5;
+  var groundMat = new THREE.MeshStandardMaterial({ color: 0x4a3a2a, roughness: 0.8, metalness: 0.1 });
+  var ground = new THREE.Mesh(new THREE.BoxGeometry(groundW, 0.15, groundD), groundMat);
+  ground.position.y = -0.1;
+  ground.receiveShadow = true;
+  group.add(ground);
+  var gridHelper = new THREE.GridHelper(groundW, currentARScene === 'xiezhou' ? 16 : 10, 0xC8962E, 0x8B7355);
+  gridHelper.position.y = 0.01;
+  group.add(gridHelper);
+
+  // 建筑布局数据
+  var layout = [];
+  if (currentARScene === 'taiyuan') {
+    layout = [
+      { x: 0, z: -1.8, w: 1.2, d: 0.6, h: 0.6, color: 0x8B1B30, roof: 0xC8962E, label: '山门', id: 'shanmen' },
+      { x: 0, z: 0,   w: 2.0, d: 1.2, h: 0.9, color: 0x9B1B30, roof: 0xD4A83A, label: '崇宁殿', id: 'chongning' },
+      { x: 0, z: 1.8, w: 1.4, d: 0.8, h: 1.1, color: 0x7A1426, roof: 0xC8962E, label: '春秋楼', id: 'chunqiu' },
+      { x: -1.8, z: -0.6, w: 0.5, d: 0.5, h: 0.8, color: 0x5A3D31, roof: 0x8B7355, label: '钟楼', id: 'zhonglou' },
+      { x: 1.8, z: -0.6, w: 0.5, d: 0.5, h: 0.8, color: 0x5A3D31, roof: 0x8B7355, label: '鼓楼', id: 'gulou' }
+    ];
+  } else {
+    // 解州关帝祖庙中轴线布局（由南至北）
+    layout = [
+      { x: 0, z: -4.0, w: 1.4, d: 0.7, h: 0.7, color: 0x8B1B30, roof: 0xC8962E, label: '端门', id: 'duanmen', roofType: 'hip' },
+      { x: 0, z: -2.2, w: 1.5, d: 0.8, h: 0.8, color: 0x9B1B30, roof: 0xD4A83A, label: '雉门', id: 'zhimen', roofType: 'hip' },
+      { x: 0, z: -0.5, w: 1.8, d: 1.0, h: 1.0, color: 0x9B1B30, roof: 0xD4A83A, label: '午门', id: 'wumen', roofType: 'hip' },
+      { x: 0, z: 1.5, w: 1.6, d: 1.0, h: 1.3, color: 0x7A1426, roof: 0xE8C46A, label: '御书楼', id: 'yushulou', roofType: 'tower' },
+      { x: 0, z: 3.8, w: 2.4, d: 1.6, h: 1.4, color: 0x9B1B30, roof: 0xD4A83A, label: '崇宁殿', id: 'chongning_xz', roofType: 'double' },
+      { x: 0, z: 6.5, w: 2.0, d: 1.4, h: 1.8, color: 0x7A1426, roof: 0xC8962E, label: '春秋楼', id: 'chunqiu_xz', roofType: 'tower' },
+      { x: -2.2, z: 3.0, w: 0.6, d: 0.6, h: 1.0, color: 0x5A3D31, roof: 0x8B7355, label: '钟楼', id: 'zhonglou_xz', roofType: 'hip' },
+      { x: 2.2, z: 3.0, w: 0.6, d: 0.6, h: 1.0, color: 0x5A3D31, roof: 0x8B7355, label: '鼓楼', id: 'gulou_xz', roofType: 'hip' },
+      { x: -2.0, z: 6.0, w: 0.7, d: 0.7, h: 1.2, color: 0x5A3D31, roof: 0x8B7355, label: '刀楼', id: 'daolou', roofType: 'hip' },
+      { x: 2.0, z: 6.0, w: 0.7, d: 0.7, h: 1.2, color: 0x5A3D31, roof: 0x8B7355, label: '印楼', id: 'yinlou', roofType: 'hip' }
+    ];
+  }
+
+  var clickables = [];
+
+  layout.forEach(function(item) {
+    var sub = new THREE.Group();
+    // 墙体
+    var wallMat = new THREE.MeshStandardMaterial({ color: item.color, roughness: 0.5, metalness: 0.1 });
+    var wall = new THREE.Mesh(new THREE.BoxGeometry(item.w, item.h, item.d), wallMat);
+    wall.position.y = item.h/2;
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+    sub.add(wall);
+    
+    // 屋顶（根据类型区分）
+    var roofMat = new THREE.MeshStandardMaterial({ color: item.roof, roughness: 0.4, metalness: 0.3 });
+    if (item.roofType === 'tower') {
+      // 楼阁式：两层屋顶
+      var roof1 = new THREE.Mesh(new THREE.ConeGeometry(Math.max(item.w, item.d) * 0.65, item.h * 0.35, 4), roofMat);
+      roof1.position.y = item.h + 0.08;
+      roof1.rotation.y = Math.PI / 4;
+      roof1.castShadow = true;
+      sub.add(roof1);
+      var roof2 = new THREE.Mesh(new THREE.ConeGeometry(Math.max(item.w, item.d) * 0.45, item.h * 0.25, 4), roofMat);
+      roof2.position.y = item.h + 0.35;
+      roof2.rotation.y = Math.PI / 4;
+      roof2.castShadow = true;
+      sub.add(roof2);
+    } else if (item.roofType === 'double') {
+      // 重檐：一大一小两层
+      var roof1 = new THREE.Mesh(new THREE.ConeGeometry(Math.max(item.w, item.d) * 0.7, item.h * 0.4, 4), roofMat);
+      roof1.position.y = item.h + 0.1;
+      roof1.rotation.y = Math.PI / 4;
+      roof1.castShadow = true;
+      sub.add(roof1);
+      var roof2 = new THREE.Mesh(new THREE.ConeGeometry(Math.max(item.w, item.d) * 0.5, item.h * 0.2, 4), roofMat);
+      roof2.position.y = item.h + 0.35;
+      roof2.rotation.y = Math.PI / 4;
+      roof2.castShadow = true;
+      sub.add(roof2);
+    } else {
+      // 单檐
+      var roof = new THREE.Mesh(new THREE.ConeGeometry(Math.max(item.w, item.d) * 0.7, item.h * 0.4, 4), roofMat);
+      roof.position.y = item.h + 0.1;
+      roof.rotation.y = Math.PI / 4;
+      roof.castShadow = true;
+      sub.add(roof);
+    }
+    
+    // 台基
+    var baseMat = new THREE.MeshStandardMaterial({ color: 0x6b5a4a, roughness: 0.9 });
+    var base = new THREE.Mesh(new THREE.BoxGeometry(item.w + 0.3, 0.15, item.d + 0.3), baseMat);
+    base.position.y = 0.075;
+    base.receiveShadow = true;
+    sub.add(base);
+
+    sub.position.set(item.x, 0, item.z);
+    group.add(sub);
+
+    // 保存mesh引用以便点击检测
+    wall.userData = { buildingId: item.id };
+    clickables.push(wall);
+
+    // 标签
+    var label = makeLabel(item.label, '#E8C46A');
+    label.position.set(item.x, item.h + (item.roofType === 'tower' ? 1.0 : 0.8), item.z);
+    group.add(label);
+  });
+
+  // 粒子
+  var pGeo = new THREE.BufferGeometry();
+  var pCount = 120;
+  var pos = new Float32Array(pCount * 3);
+  for (var i = 0; i < pCount * 3; i++) pos[i] = (Math.random() - 0.5) * (currentARScene === 'xiezhou' ? 14 : 10);
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  var pMat = new THREE.PointsMaterial({ color: 0xE8C46A, size: 0.04, transparent: true, opacity: 0.4, blending: THREE.AdditiveBlending });
+  var particles = new THREE.Points(pGeo, pMat);
+  particles.position.y = 1.5;
+  group.add(particles);
+
+  scene.add(group);
+
+  threeScene = {
+    scene: scene,
+    camera: camera,
+    renderer: renderer,
+    group: group,
+    container: container,
+    running: true,
+    particles: particles,
+    clickables: clickables
+
+  };
+
+  buildingMeshes = clickables;
+  threeInitialized = true;
+
+  // 窗口resize
+  function onResize() {
+    if (!threeScene) return;
+    var w = container.clientWidth, h = container.clientHeight;
+    if (w > 0 && h > 0) {
+      threeScene.camera.aspect = w / h;
+      threeScene.camera.updateProjectionMatrix();
+      threeScene.renderer.setSize(w, h);
+    }
+  }
+  window.addEventListener('resize', onResize);
+  threeScene._resizeHandler = onResize;
+
+  // 鼠标/触摸点击事件 (Raycaster)
+  var clickHandler = function(e) {
+    var rect = container.getBoundingClientRect();
+    var x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    var y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    handleRaycast(x, y);
+  };
+  var touchHandler = function(e) {
+    if (e.touches.length === 1) {
+      var touch = e.touches[0];
+      var rect = container.getBoundingClientRect();
+      var x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+      var y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+      handleRaycast(x, y);
+    }
+  };
+  container.addEventListener('click', clickHandler);
+  container.addEventListener('touchstart', touchHandler, { passive: true });
+  threeScene._clickHandler = clickHandler;
+  threeScene._touchHandler = touchHandler;
+
+  function handleRaycast(x, y) {
+    if (!threeScene) return;
+    var raycaster = new THREE.Raycaster();
+    var mouse = new THREE.Vector2(x, y);
+    raycaster.setFromCamera(mouse, threeScene.camera);
+    var intersects = raycaster.intersectObjects(threeScene.clickables);
+    if (intersects.length > 0) {
+      var hit = intersects[0].object;
+      var id = hit.userData.buildingId;
+      if (id) {
+        threeScene.running = false;
+        showBuildingModal(id);
+      }
+    }
+  }
+
+  animateAR();
+}
+
+function animateAR() {
+  if (!threeScene || !threeScene.running) { threeAnimId = null; return; }
+  threeAnimId = requestAnimationFrame(animateAR);
+  var t = Date.now() * 0.0006;
+  if (threeScene.group) {
+    threeScene.group.rotation.y = t * 0.3;
+  }
+  if (threeScene.particles) {
+    threeScene.particles.rotation.y = t * 0.05;
+  }
+  threeScene.renderer.render(threeScene.scene, threeScene.camera);
+}
+
+function pauseThree() { if (threeScene) threeScene.running = false; }
+function resumeThree() {
+  if (!threeScene) return;
+  threeScene.running = true;
+  var w = threeScene.container.clientWidth, h = threeScene.container.clientHeight;
+  if (w > 0 && h > 0) {
+    threeScene.camera.aspect = w / h;
+    threeScene.camera.updateProjectionMatrix();
+    threeScene.renderer.setSize(w, h);
+  }
+  if (!threeAnimId) animateAR();
+}
+
+// ---- 建筑弹窗 ----
+function showBuildingModal(id) {
+  var modal = document.getElementById('buildingModal');
+  var sceneData = BUILDING_DATA[currentARScene];
+  var data = sceneData.find(function(d) { return d.id === id; });
+  if (!data) return;
+  document.getElementById('modalTitle').textContent = data.name;
+  document.getElementById('modalSub').textContent = data.sub;
+  document.getElementById('modalPanorama').textContent = data.icon;
+  document.getElementById('modalDesc').textContent = data.desc;
+  document.getElementById('modalDetail').textContent = data.detail;
+  modal.classList.add('show');
+}
+
+function closeBuildingModal() {
+  document.getElementById('buildingModal').classList.remove('show');
+  resumeThree();
+}
+
+// ---- Toast ----
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._hide);
+  t._hide = setTimeout(function(){t.classList.remove('show')}, 1800);
+}
+
+// ---- 扫码访问 ----
+function getShareUrl() {
+  var url = window.GUANDI_SHARE_URL || location.href;
+  return url.split('#')[0].replace(/\/$/, '') || location.origin;
+}
+function toggleQRPanel() {
+  var p = document.getElementById('qrPanel');
+  var m = document.getElementById('qrMask');
+  var show = !p.classList.contains('show');
+  p.classList.toggle('show', show);
+  m.classList.toggle('show', show);
+  if (show) buildQR();
+}
+function closeQRPanel() {
+  document.getElementById('qrPanel').classList.remove('show');
+  document.getElementById('qrMask').classList.remove('show');
+}
+function buildQR() {
+  var box = document.getElementById('qrBox');
+  var url = getShareUrl();
+  document.getElementById('qrUrl').textContent = url;
+  box.innerHTML = '';
+  if (window.QRCode) {
+    new QRCode(box, {
+      text: url,
+      width: 220,
+      height: 220,
+      colorDark: '#2C1810',
+      colorLight: '#FFFBF5',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } else {
+    var img = document.createElement('img');
+    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent(url);
+    img.alt = '扫码访问二维码';
+    img.width = 220;
+    img.height = 220;
+    box.appendChild(img);
+  }
+}
+function copyShareUrl() {
+  var url = getShareUrl();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function(){ showToast('链接已复制'); }, function(){ fallbackCopy(url); });
+  } else {
+    fallbackCopy(url);
+  }
+}
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly','');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); showToast('链接已复制'); } catch(e) { showToast('复制失败，请手动复制'); }
+  document.body.removeChild(ta);
+}
+
+// ============================================================
+// 4. 文创产品 (模拟)
+// ============================================================
+var PRODUCTS = [];
+var PROD_PAGE = 1;
+var PROD_KW = "";
+var API_BASE = "/api";
+
+function generateMockProducts() {
+  var names = [
+    "关公夜读春秋·书签", "青龙偃月刀·摆件", "关帝圣像·金属徽章", "千里走单骑·帆布包",
+    "义薄云天·折扇", "关公信俗·香囊", "桃园结义·三色印章", "过五关斩六将·扑克牌",
+    "关帝庙·琉璃瓦纹饰杯垫", "唱经楼·科举主题文具套装", "南肖墙·城市记忆冰箱贴",
+    "西校尉营·侍女像手机壳", "奶奶庙·关娘娘祈福手绳", "大关帝庙·春秋楼拼图",
+    "关公文化·丝巾", "忠义·不锈钢保温杯", "武财神·招财摆件", "关帝庙·建筑纸雕灯",
+    "唱经楼·金榜题名笔记本", "西校尉营·甲胄钥匙扣", "关公·Q版公仔", "义字·铜质镇纸",
+    "关帝庙·全景明信片套装", "奶奶庙·剪纸工艺挂画", "南肖墙·老物件手账贴纸",
+    "解州祖庙·蟠龙石柱模型", "解州崇宁殿·御匾书签套装", "春秋楼·悬梁吊柱积木"
+  ];
+  var descs = [
+    "以关公夜读《春秋》为灵感，采用仿古铜色金属蚀刻。",
+    "青龙偃月刀造型，合金材质，桌面微缩摆件。",
+    "关帝圣像浮雕徽章，珐琅工艺，背面刻'忠义'。",
+    "帆布包印有'千里走单骑'水墨插画。",
+    "竹制折扇，扇面题写'义薄云天'，手工制作。",
+    "传统香囊，内配艾草，绣有关公信俗纹样。",
+    "三色套印印章，分别刻'刘''关''张'。",
+    "以过五关斩六将故事为线索，54张插画扑克。",
+    "以解州关帝祖庙崇宁殿蟠龙石柱为原型，树脂材质。",
+    "收录康熙、乾隆、咸丰、慈禧四代御匾书法。"
+  ];
+  var prices = [18, 28, 38, 48, 58, 68, 78, 88, 98, 108, 128, 148, 168, 188, 198, 228, 258, 288];
+  var cats = ["文具", "摆件", "服饰", "家居", "饰品", "收藏"];
+  var products = [];
+  for (var i = 0; i < 200; i++) {
+    var ni = i % names.length, di = i % descs.length, pi = i % prices.length, ci = i % cats.length;
+    products.push({
+      id: i+1,
+      name: names[ni] + (i >= names.length ? ' (' + (Math.floor(i/names.length)+1) + ')' : ''),
+      description: descs[di] + ' 编号：' + (i+1).toString().padStart(3,'0'),
+      price: prices[pi],
+      stock: Math.floor(Math.random() * 100) + 10,
+      sold: Math.floor(Math.random() * 500),
+      category: cats[ci]
+    });
+  }
+  return products;
+}
+PRODUCTS = generateMockProducts();
+
+function renderProducts() {
+  var list = document.getElementById('productList');
+  var filtered = PRODUCTS;
+  if (PROD_KW) {
+    var kw = PROD_KW.toLowerCase();
+    filtered = filtered.filter(function(p){ return p.name.toLowerCase().indexOf(kw)>=0 || (p.description||'').toLowerCase().indexOf(kw)>=0; });
+  }
+  var total = filtered.length;
+  var ps = 20, tp = Math.max(1, Math.ceil(total / ps));
+  if (PROD_PAGE > tp) PROD_PAGE = tp;
+  var start = (PROD_PAGE - 1) * ps;
+  var items = filtered.slice(start, start + ps);
+  var dc = document.getElementById('prodCount');
+  if (dc) dc.textContent = '共 ' + total + ' 款产品' + (PROD_KW ? '，搜索: ' + PROD_KW : '');
+
+  var h = '<div class="product-grid" style="display:flex;flex-direction:column;gap:14px;">';
+  for (var i = 0; i < items.length; i++) {
+    var p = items[i];
+    h += '<div class="product-card">';
+    h += '<div class="pc-img">🏮</div>';
+    h += '<div class="pc-body">';
+    h += '<h3>' + p.name + '</h3>';
+    h += '<div class="pc-price"><span class="unit">¥</span>' + p.price + '</div>';
+    h += '<div class="pc-meta" style="font-size:11px;color:var(--ink-muted);margin:4px 0">库存 ' + p.stock + ' | 已售 ' + p.sold + '</div>';
+    h += '<button class="pc-btn" onclick="showToast(\'购买功能开发中\')">立即购买</button>';
+    h += '<p class="pc-desc">' + (p.description || '').slice(0,120) + '</p>';
+    h += '</div></div>';
+  }
+  h += '</div>';
+  h += '<div class="pagi">';
+  h += '<button' + (PROD_PAGE <= 1 ? ' disabled' : '') + ' onclick="PROD_PAGE=' + String(PROD_PAGE-1) + ';renderProducts()">‹</button>';
+  for (var j = 1; j <= tp; j++) {
+    if (j===1 || j===tp || Math.abs(j-PROD_PAGE)<=2) {
+      h += '<button' + (j===PROD_PAGE ? ' class="active"' : '') + ' onclick="PROD_PAGE=' + String(j) + ';renderProducts()">' + String(j) + '</button>';
+    } else if (Math.abs(j-PROD_PAGE)===3) {
+      h += '<button disabled>…</button>';
+    }
+  }
+  h += '<button' + (PROD_PAGE >= tp ? ' disabled' : '') + ' onclick="PROD_PAGE=' + String(PROD_PAGE+1) + ';renderProducts()">›</button>';
+  h += '</div>';
+  list.innerHTML = h;
+}
+function searchProducts() {
+  var inp = document.getElementById('prodSearch');
+  PROD_KW = inp ? inp.value.trim() : '';
+  PROD_PAGE = 1;
+  renderProducts();
+}
+
+// ---- 聊天 ----
+function toggleChat() {
+  var p = document.getElementById('chatPanel');
+  p.classList.toggle('show');
+  if (p.classList.contains('show')) setTimeout(function(){ var inp = document.getElementById('chatInput'); if(inp) inp.focus(); }, 300);
+}
+function sendChat() {
+  var inp = document.getElementById('chatInput');
+  var body = document.getElementById('chatBody');
+  if (!inp || !body) return;
+  var msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+  body.innerHTML += '<div class="cmsg user">' + msg + '</div>';
+  body.innerHTML += '<div class="cmsg bot"><div class="spinner"></div> 思考中...</div>';
+  body.scrollTop = body.scrollHeight;
+  fetch(API_BASE + '/chat', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({message: msg}) })
+  .then(function(r){ return r.json(); })
+  .then(function(d){ var msgs = body.querySelectorAll('.cmsg.bot'); if (msgs.length) msgs[msgs.length-1].outerHTML = '<div class="cmsg bot">' + (d.reply||'').replace(/\\n/g,'<br>') + '</div>'; body.scrollTop = body.scrollHeight; })
+  .catch(function(){ var msgs = body.querySelectorAll('.cmsg.bot'); if (msgs.length) msgs[msgs.length-1].outerHTML = '<div class="cmsg bot">正在查询关帝庙知识库...</div>'; });
+}
+
+// ============================================================
+// 初始化
+// ============================================================
+renderExhibits();
+renderProducts();
+
+window.addEventListener('beforeunload', function() {
+  if (threeAnimId) cancelAnimationFrame(threeAnimId);
+  if (threeScene) { threeScene.renderer.dispose(); if (threeScene._resizeHandler) window.removeEventListener('resize', threeScene._resizeHandler); }
+});
+</script>
+
+<!-- 聊天浮窗 -->
+<button class="chat-btn" id="chatFab" onclick="toggleChat()">💬</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-hdr">
+    <span>💬 智能导览</span>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="cmsg bot">你好！我是关帝庙智能导览助手。你可以问我关于六处庙宇的历史、建筑或文化元素。</div>
+  </div>
+  <div class="chat-inp">
+    <input id="chatInput" type="text" placeholder="输入问题..." onkeydown="if(event.key==='Enter') sendChat()">
+    <button onclick="sendChat()">发送</button>
+  </div>
+</div>
+
+<!-- 扫码访问 -->
+<div class="qr-mask" id="qrMask" onclick="closeQRPanel()"></div>
+<div class="qr-panel" id="qrPanel">
+  <div class="qr-head">
+    <span>📱 扫码访问</span>
+    <button onclick="closeQRPanel()">✕</button>
+  </div>
+  <div class="qr-body">
+    <div class="qr-box" id="qrBox"></div>
+    <p>微信 / 相机扫码即可打开</p>
+    <div class="qr-url" id="qrUrl"></div>
+    <button class="qr-copy" onclick="copyShareUrl()">复制链接</button>
+  </div>
+</div>
+</body>
+</html>

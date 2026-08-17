@@ -1,0 +1,1 @@
+{"buildCommand":null,"outputDirectory":".","devCommand":null,"installCommand":null,"framework":null,"rewrites":[{"source":"/api/(.*)","destination":"https://guandi-backend.up.railway.app/api/$1"}]}
